@@ -34,6 +34,11 @@ nonAuthRoute.post("/items", UserController.nonMoney)
 
 //get login
 nonAuthRoute.get("/items", UserController.getAllNonMoney)
+//delete donation
+nonAuthRoute.post("/admin/delete-donation", UserController.deleteDonation)
+
+//delete donation
+nonAuthRoute.post("/admin/update-donation", UserController.updateDonation)
 
 
 export { nonAuthRoute };

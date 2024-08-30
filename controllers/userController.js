@@ -90,7 +90,37 @@ class UserController {
         let details = req.body
         let response = await NonMoneyDonationModel.find().lean()
         return res.status(200).json(response)
-    }   
+    } 
+    
+    static deleteDonation = async(req, res) => {
+        try {
+        let title = req.body.title
+        if(!title)
+            return res.status(400).json({message: "title of donation is required"})
+        let response = await DonationModel.deleteOne({title})
+        return res.status(200).json({"message": "deleted"})
+        }catch(err) {
+            console.log(err)
+            return res.status(500).json({message: "internal error"})
+        }
+    } 
+    static updateDonation = async(req, res) => {
+        try {
+        let title = req.body.title
+        if(!title)
+            return res.status(400).json({message: "title of donation is required"})
+        let response = await DonationModel.findOne({title})
+        if(!response) 
+            return res.status(400).json({message: "no donation entry found"})
+        for (const key of req.body) {
+            response[key] = req.body[key]
+        }
+        await response.save()
+    }catch(err) {
+        console.log(err)
+        return res.status(500).json({"message": "not found"})
+    }
+    } 
 
  }
 
